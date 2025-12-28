@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+}
+
+enum StatusProjeto {
+  DESENVOLVENDO
+  CONCLUINDO
+  CONCLUIDO
+}
+
+enum CategoryProjects {
+  FULL_STACK
+  BACK_END
+  FRONT_END
+}
+
+type Imagem {
+  titulo    String
+  descricao String
+  arquivo   String
+}
+
+model Portfolio {
+  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
+  titulo              String
+  descricao           String
+  tecnologias         String[]
+  link_github         String?
+  categoria           CategoryProjects
+  imagem_capa         String?
+  status              StatusProjeto
+  repositorio_privado Boolean
+  tags                String[]
+  video_demo          String?
+  imagens             Imagem[]
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+}
+
+model Messages {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  telefone  String
+  message   String
+  createdAt DateTime @default(now())
+}

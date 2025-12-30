@@ -8,6 +8,13 @@ import { registerMessages } from "./controllers/mensage";
 const upload = multer(uploadAvatar.getConfig);
 export const router = Router()
 
+router.get("/", (_, res) => {
+  res.json({
+    status: "API funcionando 🚀",
+    message: "Backend online no Render"
+  });
+});
+
 router.post("/registerProjects", upload.fields([
     { name: "imagem_capa", maxCount: 1 },
     { name: "imagens", maxCount: 1000 },

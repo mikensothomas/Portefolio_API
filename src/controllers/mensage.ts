@@ -1,27 +1,22 @@
 import { Request, Response } from "express";
-import prisma from "../config/prisma";
+import Messages from "../models/Messages";
 
 export const registerMessages = async (req: Request, res: Response) => {
-    try {
-        const {
-            name,
-            email,
-            telefone,
-            message
-        } = req.body;
+  try {
+    const { name, email, telefone, message } = req.body;
 
-        const newMessage = await prisma.messages.create({
-            data: {
-                name,
-                email,
-                telefone,
-                message
-            },
-        });
+    const newMessage = await Messages.create({
+      name,
+      email,
+      telefone,
+      message,
+    });
 
-        res.status(200).json(newMessage);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro ao registrar a mensagem" });
-    }
+    return res.status(201).json(newMessage);
+  } catch (error) {
+    console.error("Erro ao registrar mensagem:", error);
+    return res
+      .status(500)
+      .json({ error: "Erro ao registrar a mensagem" });
+  }
 };

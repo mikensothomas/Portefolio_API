@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import Portfolio from "../models/Portfolio";
 
 export const registerProjects = async (req: Request, res: Response) => {
   try {
@@ -18,41 +16,54 @@ export const registerProjects = async (req: Request, res: Response) => {
       imagens_meta,
     } = req.body;
 
+    // Arrays vindos do form-data
     const tecnologiasArray = tecnologias ? JSON.parse(tecnologias) : [];
     const tagsArray = tags ? JSON.parse(tags) : [];
-    const repositorioPrivado = repositorio_privado === "true" || repositorio_privado === true;
+    const repositorioPrivado =
+      repositorio_privado === "true" || repositorio_privado === true;
 
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+    // Arquivos (multer)
+    const files = req.files as
+      | { [fieldname: string]: Express.Multer.File[] }
+      | undefined;
+
     const imagemCapaFile = files?.imagem_capa?.[0] || null;
     const imagensFiles = files?.imagens || [];
 
-    const imagensMetaParsed = imagens_meta ? JSON.parse(imagens_meta) : [];
+    // Metadados das imagens
+    const imagensMetaParsed = imagens_meta
+      ? JSON.parse(imagens_meta)
+      : [];
 
     const imagensData = imagensFiles.map((file, index) => ({
-      titulo: imagensMetaParsed[index]?.titulo || file.originalname,
-      descricao: imagensMetaParsed[index]?.descricao || "",
+      titulo:
+        imagensMetaParsed[index]?.titulo || file.originalname,
+      descricao:
+        imagensMetaParsed[index]?.descricao || "",
       arquivo: `/uploads/${file.filename}`,
     }));
 
-    const newProject = await prisma.portfolio.create({
-      data: {
-        titulo,
-        descricao,
-        tecnologias: tecnologiasArray,
-        link_github,
-        categoria,
-        imagem_capa: imagemCapaFile ? `/uploads/${imagemCapaFile.filename}` : null,
-        status,
-        repositorio_privado: repositorioPrivado,
-        tags: tagsArray,
-        video_demo: video_demo || null,
-        imagens: imagensData,
-      },
+    const newProject = await Portfolio.create({
+      titulo,
+      descricao,
+      tecnologias: tecnologiasArray,
+      link_github: link_github || undefined,
+      categoria,
+      imagem_capa: imagemCapaFile
+        ? `/uploads/${imagemCapaFile.filename}`
+        : undefined,
+      status,
+      repositorio_privado: repositorioPrivado,
+      tags: tagsArray,
+      video_demo: video_demo || undefined,
+      imagens: imagensData,
     });
 
-    res.status(200).json(newProject);
+    return res.status(201).json(newProject);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erro ao registrar o projeto" });
+    console.error("Erro ao registrar projeto:", error);
+    return res
+      .status(500)
+      .json({ error: "Erro ao registrar o projeto" });
   }
 };

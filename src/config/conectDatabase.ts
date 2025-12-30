@@ -1,24 +1,17 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const uri: string = process.env.DATABASE_URL || "";
+const mongoUrl =
+  process.env.DATABASE_URL || "mongodb://localhost:27017/portfolio";
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
-export async function connectWithDB() {
+export async function connectDatabase(): Promise<void> {
   try {
-    await client.connect();
-
-    console.log("🚀DB connected successfully!");
+    await mongoose.connect(mongoUrl);
+    console.log("🚀 MongoDB conectado com sucesso (Mongoose)");
   } catch (error) {
-    console.log("Erro ao conectar ao banco de dados: ", error);
+    console.error("❌ Erro ao conectar no MongoDB:", error);
+    process.exit(1);
   }
 }

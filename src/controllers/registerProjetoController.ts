@@ -1,3 +1,70 @@
+// import { Request, Response } from "express";
+// import Portfolio from "../models/Portfolio";
+
+// export const registerProjects = async (req: Request, res: Response) => {
+//   try {
+//     const {
+//       titulo,
+//       descricao,
+//       tecnologias,
+//       link_github,
+//       categoria,
+//       status,
+//       repositorio_privado,
+//       tags,
+//       video_demo,
+//       imagens_meta,
+//     } = req.body;
+
+//     const tecnologiasArray = tecnologias ? JSON.parse(tecnologias) : [];
+//     const tagsArray = tags ? JSON.parse(tags) : [];
+//     const repositorioPrivado =
+//       repositorio_privado === "true" || repositorio_privado === true;
+
+//     const files = req.files as
+//       | { [fieldname: string]: Express.Multer.File[] }
+//       | undefined;
+
+//     const imagemCapaFile = files?.imagem_capa?.[0] || null;
+//     const imagensFiles = files?.imagens || [];
+
+//     const imagensMetaParsed = imagens_meta
+//       ? JSON.parse(imagens_meta)
+//       : [];
+
+//     const imagensData = imagensFiles.map((file, index) => ({
+//       titulo:
+//         imagensMetaParsed[index]?.titulo || file.originalname,
+//       descricao:
+//         imagensMetaParsed[index]?.descricao || "",
+//       arquivo: `/uploads/${file.filename}`,
+//     }));
+
+//     const newProject = await Portfolio.create({
+//       titulo,
+//       descricao,
+//       tecnologias: tecnologiasArray,
+//       link_github: link_github || undefined,
+//       categoria,
+//       imagem_capa: imagemCapaFile
+//         ? `/uploads/${imagemCapaFile.filename}`
+//         : undefined,
+//       status,
+//       repositorio_privado: repositorioPrivado,
+//       tags: tagsArray,
+//       video_demo: video_demo || undefined,
+//       imagens: imagensData,
+//     });
+
+//     return res.status(201).json(newProject);
+//   } catch (error) {
+//     console.error("Erro ao registrar projeto:", error);
+//     return res
+//       .status(500)
+//       .json({ error: "Erro ao registrar o projeto" });
+//   }
+// };
+
 import { Request, Response } from "express";
 import Portfolio from "../models/Portfolio";
 
@@ -18,6 +85,7 @@ export const registerProjects = async (req: Request, res: Response) => {
 
     const tecnologiasArray = tecnologias ? JSON.parse(tecnologias) : [];
     const tagsArray = tags ? JSON.parse(tags) : [];
+
     const repositorioPrivado =
       repositorio_privado === "true" || repositorio_privado === true;
 
@@ -25,7 +93,7 @@ export const registerProjects = async (req: Request, res: Response) => {
       | { [fieldname: string]: Express.Multer.File[] }
       | undefined;
 
-    const imagemCapaFile = files?.imagem_capa?.[0] || null;
+    const imagemCapaFile = files?.imagem_capa?.[0];
     const imagensFiles = files?.imagens || [];
 
     const imagensMetaParsed = imagens_meta
@@ -33,11 +101,9 @@ export const registerProjects = async (req: Request, res: Response) => {
       : [];
 
     const imagensData = imagensFiles.map((file, index) => ({
-      titulo:
-        imagensMetaParsed[index]?.titulo || file.originalname,
-      descricao:
-        imagensMetaParsed[index]?.descricao || "",
-      arquivo: `/uploads/${file.filename}`,
+      titulo: imagensMetaParsed[index]?.titulo || file.originalname,
+      descricao: imagensMetaParsed[index]?.descricao || "",
+      arquivo: file.path, // ✅ URL do Cloudinary
     }));
 
     const newProject = await Portfolio.create({
@@ -46,21 +112,19 @@ export const registerProjects = async (req: Request, res: Response) => {
       tecnologias: tecnologiasArray,
       link_github: link_github || undefined,
       categoria,
-      imagem_capa: imagemCapaFile
-        ? `/uploads/${imagemCapaFile.filename}`
-        : undefined,
       status,
       repositorio_privado: repositorioPrivado,
       tags: tagsArray,
       video_demo: video_demo || undefined,
+      imagem_capa: imagemCapaFile?.path, // ✅ URL do Cloudinary
       imagens: imagensData,
     });
 
     return res.status(201).json(newProject);
   } catch (error) {
     console.error("Erro ao registrar projeto:", error);
-    return res
-      .status(500)
-      .json({ error: "Erro ao registrar o projeto" });
+    return res.status(500).json({
+      error: "Erro ao registrar o projeto",
+    });
   }
 };

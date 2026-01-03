@@ -16,13 +16,11 @@ export const registerProjects = async (req: Request, res: Response) => {
       imagens_meta,
     } = req.body;
 
-    // Arrays vindos do form-data
     const tecnologiasArray = tecnologias ? JSON.parse(tecnologias) : [];
     const tagsArray = tags ? JSON.parse(tags) : [];
     const repositorioPrivado =
       repositorio_privado === "true" || repositorio_privado === true;
 
-    // Arquivos (multer)
     const files = req.files as
       | { [fieldname: string]: Express.Multer.File[] }
       | undefined;
@@ -30,7 +28,6 @@ export const registerProjects = async (req: Request, res: Response) => {
     const imagemCapaFile = files?.imagem_capa?.[0] || null;
     const imagensFiles = files?.imagens || [];
 
-    // Metadados das imagens
     const imagensMetaParsed = imagens_meta
       ? JSON.parse(imagens_meta)
       : [];

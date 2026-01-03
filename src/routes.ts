@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { uploadAvatar } from "./middleware/upload/avatar";
 import { registerProjects } from "./controllers/registerProjetoController";
-import multer from "multer";
 import { registerMessages } from "./controllers/mensage";
 import { listProjects } from "./controllers/listProjectControllers";
+import uploadCloudinary from "./middleware/uploads/uploadCloudinary";
 
-const upload = multer(uploadAvatar.getConfig);
+const upload = uploadCloudinary;
 
 const routes = Router();
 

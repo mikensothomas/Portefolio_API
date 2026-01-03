@@ -8,7 +8,14 @@ import { connectDatabase } from "./config/conectDatabase";
 import path from "path";
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://portefolio-frontend.onrender.com'
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}))
 
 app.use(
   "/uploads",

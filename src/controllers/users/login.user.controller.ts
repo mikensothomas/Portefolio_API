@@ -6,13 +6,13 @@ export class LoginUserController {
         const { email, password } = req.body;
 
         if (
-            email !== process.env.ADMIN_EMAIL &&
+            email !== process.env.ADMIN_EMAIL ||
             password !== process.env.ADMIN_PASSWORD
         ) {
             return res.status(401).json({ error: "Credenciais inválidas" });
         }
         const token = jwt.sign(
-            { email },
+            { email, password },
             process.env.JWT_SECRET as string,
             { expiresIn: "5h" }
         );

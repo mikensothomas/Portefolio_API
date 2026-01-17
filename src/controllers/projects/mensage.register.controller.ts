@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import Messages from "../models/Messages";
+import messagesModel from "../../models/messages.model";
+// import Messages from "../models/Messages";
 
 export const registerMessages = async (req: Request, res: Response) => {
   try {
     const { name, email, telefone, message } = req.body;
 
-    const newMessage = await Messages.create({
+    const newMessage = await messagesModel.create({
       name,
       email,
       telefone,

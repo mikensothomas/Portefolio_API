@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import Portfolio from "../models/Portfolio";
+import portfolioModel from "../../models/portfolio.model";
+// import Portfolio from "../models/Portfolio";
 
 export const registerProjects = async (req: Request, res: Response) => {
   try {
@@ -39,7 +40,7 @@ export const registerProjects = async (req: Request, res: Response) => {
       arquivo: file.path,
     }));
 
-    const newProject = await Portfolio.create({
+    const newProject = await portfolioModel.create({
       titulo,
       descricao,
       tecnologias: tecnologiasArray,

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Portfolio from "../models/Portfolio";
+import Portfolio from "../../models/portfolio.model";
 
 export const listProjects = async (
   req: Request,

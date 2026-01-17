@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Messages from "../models/Messages";
-import Portfolio from "../models/Portfolio";
+import Messages from "../models/messages.model";
+import Portfolio from "../models/portfolio.model";
 
 const mongoUrl = process.env.DATABASE_URL || "mongodb://localhost:27017/portfolio";
 

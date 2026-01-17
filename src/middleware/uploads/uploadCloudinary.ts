@@ -1,9 +1,8 @@
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "../../config/cloudinary";
 
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: require("../../config/cloudinary").default,
   params: async () => ({
     folder: "portfolio",
     format: "png",

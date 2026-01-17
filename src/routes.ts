@@ -7,6 +7,9 @@ import uploadCloudinary from "./middleware/uploads/uploadCloudinary";
 import { registerMessages } from "./controllers/projects/mensage.register.controller";
 import { loginUserController } from "./controllers/users/login.user.controller";
 import { ensureAuthenticated } from "./middleware/authUser/authUsers.adm";
+import { GetProjectByIdController } from "./controllers/projects/get.project.ById.controller";
+
+const getProjectByIdController = new GetProjectByIdController();
 
 const routes = Router();
 
@@ -29,9 +32,14 @@ routes.post(
   registerProjects
 );
 
+routes.get(
+  "/projects/:id",
+  getProjectByIdController.handle.bind(getProjectByIdController)
+);
+
 routes.get("/listProjects", listProjects);
 routes.post("/registerMessage", ensureAuthenticated, registerMessages);
-routes.put("/:id/editProjects", ensureAuthenticated, editProjectsController.editProject);
-routes.delete("/:id/deleteProject", ensureAuthenticated, deleteProjetoController.deleteProject);
+routes.put("/editProjects/:id", ensureAuthenticated, editProjectsController.editProject);
+routes.delete("/deleteProject/:id", ensureAuthenticated, deleteProjetoController.deleteProject);
 
 export default routes;

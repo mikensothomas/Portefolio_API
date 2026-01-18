@@ -23,8 +23,7 @@ routes.get("/", (_, res) => {
 routes.post("/login", loginUserController.loginUser);
 
 routes.post(
-  "/registerProjects",
-  ensureAuthenticated,
+  "/registerProjects", ensureAuthenticated,
   uploadCloudinary.fields([
     { name: "imagem_capa", maxCount: 1 },
     { name: "imagens", maxCount: 10 },

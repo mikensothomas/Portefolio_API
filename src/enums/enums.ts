@@ -9,4 +9,6 @@ export enum CategoryProjects {
   BACK_END = "BACK_END",
   FRONT_END = "FRONT_END",
 }
-
+export interface User {
+  email: string;
+}

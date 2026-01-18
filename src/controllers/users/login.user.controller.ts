@@ -12,11 +12,12 @@ export class LoginUserController {
             return res.status(401).json({ error: "Credenciais inválidas" });
         }
         const token = jwt.sign(
-            { email, password },
+            { email },
             process.env.JWT_SECRET as string,
             { expiresIn: "5h" }
         );
-        return res.json({ token });
+
+        return res.json({ token, user: { email } });
     }
 }
 

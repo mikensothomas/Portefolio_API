@@ -9,3 +9,4 @@ export enum CategoryProjects {
   BACK_END = "BACK_END",
   FRONT_END = "FRONT_END",
 }
+

@@ -37,9 +37,17 @@ routes.get(
   getProjectByIdController.handle.bind(getProjectByIdController)
 );
 
+routes.put(
+  "/projects/:id",
+  uploadCloudinary.fields([
+    { name: "imagem_capa", maxCount: 1 },
+    { name: "imagens", maxCount: 10 },
+  ]),
+  editProjectsController.editProject
+);
+
 routes.get("/listProjects", listProjects);
 routes.post("/registerMessage", ensureAuthenticated, registerMessages);
-routes.put("/editProjects/:id", ensureAuthenticated, editProjectsController.editProject);
 routes.delete("/deleteProject/:id", ensureAuthenticated, deleteProjetoController.deleteProject);
 
 export default routes;

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import messagesModel from "../../models/messages.model";
-// import Messages from "../models/Messages";
 
 export const registerMessages = async (req: Request, res: Response) => {
   try {

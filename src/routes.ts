@@ -4,10 +4,12 @@ import { listProjects } from "./controllers/projects/list.project.controller";
 import { editProjectsController } from "./controllers/projects/edit.projects.controller";
 import { deleteProjetoController } from "./controllers/projects/delete.projeto.controller";
 import uploadCloudinary from "./middleware/uploads/uploadCloudinary";
-import { registerMessages } from "./controllers/projects/mensage.register.controller";
+import { registerMessages } from "./controllers/messages/messages.register.controller";
 import { loginUserController } from "./controllers/users/login.user.controller";
 import { ensureAuthenticated } from "./middleware/authUser/authUsers.adm";
 import { GetProjectByIdController } from "./controllers/projects/get.project.ById.controller";
+import { messagesListControllers } from "./controllers/messages/messages.list.controller";
+import { deleteMessagesController } from "./controllers/messages/delete.messages.controller";
 
 const getProjectByIdController = new GetProjectByIdController();
 
@@ -48,5 +50,7 @@ routes.put(
 routes.get("/listProjects", listProjects);
 routes.post("/registerMessage", registerMessages);
 routes.delete("/deleteProject/:id", ensureAuthenticated, deleteProjetoController.deleteProject);
+routes.get("/listMessages", messagesListControllers.listMessages)
+routes.delete("/deleteMessage/:id", deleteMessagesController.deleteMessage)
 
 export default routes;

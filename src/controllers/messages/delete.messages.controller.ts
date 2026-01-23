@@ -1,5 +1,6 @@
 import type { Request, Response } from "express"
 import messagesModel from "../../models/messages.model"
+import mongoose, { Mongoose } from "mongoose"
 
 class DeleteMessagesController {
     async deleteMessage(req: Request, res: Response): Promise<Response> {
@@ -7,6 +8,10 @@ class DeleteMessagesController {
 
         try {
             const message = await messagesModel.findByIdAndDelete(id)
+
+            if (!mongoose.Types.ObjectId.isValid) {
+                return res.status(400).json({ message: "ID inválido" })
+            }
 
             if (!message) {
                 return res.status(404).json({ message: "Mensagem não encontrado" })

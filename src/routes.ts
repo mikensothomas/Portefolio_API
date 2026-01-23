@@ -50,7 +50,7 @@ routes.put(
 routes.get("/listProjects", listProjects);
 routes.post("/registerMessage", registerMessages);
 routes.delete("/deleteProject/:id", ensureAuthenticated, deleteProjetoController.deleteProject);
-routes.get("/listMessages", messagesListControllers.listMessages)
-routes.delete("/deleteMessage/:id", deleteMessagesController.deleteMessage)
+routes.get("/listMessages", ensureAuthenticated, messagesListControllers.listMessages)
+routes.delete("/deleteMessage/:id", ensureAuthenticated, deleteMessagesController.deleteMessage)
 
 export default routes;

@@ -3,10 +3,6 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 const storage = new CloudinaryStorage({
   cloudinary: require("../../config/cloudinary").default,
-  // params: async () => ({
-  //   folder: "portfolio",
-  //   format: "png",
-  // }),
   params: async (req, file) => ({
     folder: "portfolio",
     resource_type: "image",

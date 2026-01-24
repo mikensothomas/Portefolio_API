@@ -10,6 +10,7 @@ import { ensureAuthenticated } from "./middleware/authUser/authUsers.adm";
 import { GetProjectByIdController } from "./controllers/projects/get.project.ById.controller";
 import { messagesListControllers } from "./controllers/messages/messages.list.controller";
 import { deleteMessagesController } from "./controllers/messages/delete.messages.controller";
+import { countProjrctsController } from "./controllers/projects/count.project.controller";
 
 const getProjectByIdController = new GetProjectByIdController();
 
@@ -52,5 +53,7 @@ routes.post("/registerMessage", registerMessages);
 routes.delete("/deleteProject/:id", ensureAuthenticated, deleteProjetoController.deleteProject);
 routes.get("/listMessages", ensureAuthenticated, messagesListControllers.listMessages)
 routes.delete("/deleteMessage/:id", ensureAuthenticated, deleteMessagesController.deleteMessage)
+routes.get("/countProject", countProjrctsController.getCountProject)
+routes.get("/getCountSlide/:id", countProjrctsController.getCountSlides)
 
 export default routes;
